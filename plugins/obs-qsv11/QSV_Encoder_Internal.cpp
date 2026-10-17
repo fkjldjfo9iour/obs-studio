@@ -376,8 +376,7 @@ mfxStatus QSV_Encoder_Internal::InitParams(qsv_param_t *pParams, enum qsv_codec 
 	}
 #endif
 
-#if defined(_WIN32)
-	// TODO: Ask about this one on VAAPI too.
+// Configure video signal information for both D3D and VAAPI implementations.
 	memset(&m_ExtVideoSignalInfo, 0, sizeof(m_ExtVideoSignalInfo));
 	m_ExtVideoSignalInfo.Header.BufferId = MFX_EXTBUFF_VIDEO_SIGNAL_INFO;
 	m_ExtVideoSignalInfo.Header.BufferSz = sizeof(m_ExtVideoSignalInfo);
@@ -388,7 +387,6 @@ mfxStatus QSV_Encoder_Internal::InitParams(qsv_param_t *pParams, enum qsv_codec 
 	m_ExtVideoSignalInfo.TransferCharacteristics = pParams->TransferCharacteristics;
 	m_ExtVideoSignalInfo.MatrixCoefficients = pParams->MatrixCoefficients;
 	extendedBuffers.push_back((mfxExtBuffer *)&m_ExtVideoSignalInfo);
-#endif
 
 	// CLL and Chroma location in HEVC only supported by VPL
 	if (m_ver.Major >= 2) {
